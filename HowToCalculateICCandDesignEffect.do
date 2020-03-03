@@ -165,6 +165,8 @@ use SummaryICC.dta, clear
 	format icc %4.3f
 	format deff %4.1f
 	
+	replace country="Burkina Faso" if country=="BurkinaFaso"
+	
 save ICCfromDHS.dta, replace
 	
 export delimited using ICCfromDHS.csv, replace
