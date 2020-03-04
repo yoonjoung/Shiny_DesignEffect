@@ -22,50 +22,90 @@ survey design is sampled with replacement, DEFT is the square root of DEFF.
 *********************************** Data list
 #delimit;
 global datalist "
-
-	BurkinaFaso_1992
-	BurkinaFaso_1998
 	
+	Azerbaijan_2006
+	Bangladesh_2014
 	BurkinaFaso_2010
-
-	Ethiopia_2000
-	Ethiopia_2005
-	Ethiopia_2011
+	Benin_2017
+	Bolivia_2008
+	Brazil_1996
+	Burundi_2016
+	DRC_2013
+	CAR_1994
+	Congo_2011
+	CotedIvoire_2011
+	Cameroon_2011
+	Colombia_2015
+	DominicanRepublic_2013
+	Egypt_2014
 	Ethiopia_2016
-		
-	Kenya_1993
-	Kenya_1998
-	Kenya_2003
-	Kenya_2008
+	Gabon_2012
+	Ghana_2014
+	Guinea_2018
+	Guatemala_2014
+	Guyana_2009
+	Honduras_2011
+	Haiti_2016
+	Indonesia_2017
+	Jordan_2017
 	Kenya_2014
-	
-	Niger_1992
-	Niger_1998
-	Niger_2006
+	Cambodia_2014
+	Kazakhstan_1999
+	Comoros_2012
+	KyrgyzRepublic_2012
+	Liberia_2013
+	Lesotho_2014
+	Morocco_2003
+	Madagascar_2008
+	Mali_2018
+	Malawi_2015
+	Mozambique_2011
+	Nicaragua_2001
+	Nigeria_2018
 	Niger_2012
-
-	Uganda_1995
-	Uganda_2000
-	Uganda_2006
-
+	Namibia_2013
+	Nepal_2016
+	Peru_2012
+	Philippines_2017
+	Pakistan_2017
+	Paraguay_1990
+	Rwanda_2014
+	SierraLeone_2013
+	Senegal_2017
+	Eswatini_2006
+	Chad_2014
+	Togo_2013
+	Turkey_2013
+	Tanzania_2015
+	
 	Uganda_2016
+	Uzbekistan_1996
+	Vietnam_2002
+	Yemen_2013
+	SouthAfrica_2016
+	Zambia_2018
+	Zimbabwe_2015
 	
 	"; 
 	#delimit cr
 
 /*
-surveys without v022: 
-	BurkinaFaso_2003
-	Uganda_2011	
+foreach ctry_yr in $datalist{
+use "$data\\IR_`ctry_yr'.dta", clear	
+	tab v000 v007
+	sum v005 v021 v022
+}
+
+	Uzbekistan_1996
+
 */	
+
 ************************************************************
 * Calculate DEFF and construct summary dataset 
 ************************************************************
-use "$data\\IR_Mali_2018.dta", clear	
+use "$data\\IR_Armenia_2015.dta", clear	
 
-	d v005 v021 v022
-
-	gen xsurvey="Mali_2018"
+	gen xsurvey="Armenia_2015"
 	gen wt=v005/1000000
 	gen mcpr		=v313==3
 	gen edupricomp	=v149>=2
@@ -73,7 +113,7 @@ use "$data\\IR_Mali_2018.dta", clear
 		replace married18 =. if v012<18
 		
 	svyset v021  [pw=wt], str(v022) singleunit(centered)
-		
+	
 	foreach var of varlist mcpr edupricomp married18{
 		svy: prop `var'
 		estat effects, deff	
@@ -123,6 +163,8 @@ use "$data\\IR_`ctry_yr'.dta", clear
 }	
 
 use SummaryICC.dta, clear
+
+	sum deff* icc*
 	
 	rename 	deff_edu 	 deff1
 	rename 	deff_mcpr 	 deff2
@@ -133,6 +175,10 @@ use SummaryICC.dta, clear
 	rename 	icc_married  icc3	
 	
 	reshape long deff icc, i(xsurvey) j(indicator)
+	
+		list if icc==. | icc==0
+		drop if xsurvey=="Uzbekistan_1996" | xsurvey=="Yemen_2013"
+	
 	gen indicatorname=""
 		replace indicatorname="% women completed primary school" if indicator==1
 		replace indicatorname="% women using modern contraceptives" if indicator==2
@@ -166,7 +212,13 @@ use SummaryICC.dta, clear
 	format deff %4.1f
 	
 	replace country="Burkina Faso" if country=="BurkinaFaso"
-	
+	replace country="Dominican Republic" if country=="DominicanRepublic"
+	replace country="Cote d'Ivoire" if country=="CotedIvoire"
+	replace country="Kyrgyz Republic" if country=="KyrgyzRepublic"
+	replace country="Sierra	Leone" if country=="SierraLeone"
+	replace country="South Africa" if country=="SouthAfrica"
+
+
 save ICCfromDHS.dta, replace
 	
 export delimited using ICCfromDHS.csv, replace
