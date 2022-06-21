@@ -63,7 +63,7 @@ ui<-fluidPage(
         mainPanel(
             h4(strong("Design effect and finding a sweet spot in survey design")), 
             h5("This interactive tool is for those who try to determine", 
-               a("sample size", href="https://yj-choi.shinyapps.io/Shiny_SampleSize/"), 
+               a("sample size", href="https://isquared.shinyapps.io/SampleSize/"), 
                "in cluster sample surveys - balancing operation reality, budget, and precision of survey estimates.", 
                "It will assists you to estimate potential design effect, based on select indicators and their observed ICC from real world,", 
                a("Demographic and Health Surveys (DHS)", href="www.dhsprogram.com"), 
@@ -84,7 +84,7 @@ ui<-fluidPage(
                    "(or relative inflation of sample size required in cluster sample in order to have same precision from SRS) is", 
                    strong("design effect."),
                    "It is an important factor to determine",
-                   a("sample size for cluster surveys.", href="https://yj-choi.shinyapps.io/Shiny_SampleSize/") ), 
+                   a("sample size for cluster surveys.", href="https://isquared.shinyapps.io/SampleSize/") ), 
 
                 h5("Two factors determine design effect:"),             
                 h5("- Underlying similarity of individuals within cluster,", strong(a("Intraclass Correlation (ICC)",href="https://en.wikipedia.org/wiki/Intraclass_correlation")) ),             
@@ -120,7 +120,7 @@ ui<-fluidPage(
 
             hr(),
             h6("See", a("GitHub",href="https://github.com/yoonjoung/Shiny_DesignEffect"),"for more information - especially calculation of ICC by select indicator."),
-            h6("Application last updated on:", as.Date(Sys.time(	), format='%d%b%Y')),
+            h6("Application initially published on Macrh 3, 2020."),
             h6("For typos, errors, and questions:", a("contact me",href="https://www.isquared.global/YJ"))
         )
     )
