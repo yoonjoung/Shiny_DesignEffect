@@ -1,6 +1,6 @@
 Design effect calculation app 
 
-This repository is to create an app to calculate and illustrate design effect for surveys. The App is available at https://yj-choi.shinyapps.io/Shiny_DesignEffect/.
+This repository is to create an app to calculate and illustrate design effect for surveys. The App is available at https://isquared.shinyapps.io/DesignEffect/.
 
 Thre are four Key files:
 1. HowToCalculateICCandDesignEffect.do: Stata do file to calculate ICC and DEFF using latest DHS data in 60+ countires
